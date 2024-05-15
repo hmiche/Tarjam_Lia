@@ -25,6 +25,7 @@ import re
 import sys
 import string    
 import random # define the random module  
+from os import path
 
 
 LANGUAGE_API_KEYS = {
@@ -107,8 +108,6 @@ def farrigh(config):
     prepare_output_dir(config.output.output_dir)
     model = None
     segments = []
-
-    print("path",config.input.urls_or_paths)
   
     for idx, item in enumerate(tqdm(config.input.urls_or_paths, desc='URLs or local paths')):
             progress_info = {
@@ -118,13 +117,11 @@ def farrigh(config):
             }
 
             if Path(item).exists():
-                print('Ana  Hna')
                 file_or_folder = Path(item)
-                print('file or folder : ',file_or_folder)
                 for progress_info, local_elements_segments in process_local(file_or_folder, model, config, progress_info):
                     segments.extend(local_elements_segments)
 
-
+        
     #     progress_info['outer_status'] = 'completed'
     #     yield progress_info
 
@@ -258,11 +255,12 @@ def process_url(
         new_progress_info['progress'] = 100.0
         yield new_progress_info, writer.compact_segments(segments, config.output.min_words_per_segment)
 
-def main():
+def lunch(audio_file):
     youtube_url = "https://www.youtube.com/watch?v=Phc_kYY37GQ"
     language_sign = "AR"
-    audio_file = download_youtube_audio(youtube_url)
-    audio_file = next(Path(__file__).parent.glob('downloads/*.wav'))
+    # audio_file = download_youtube_audio(youtube_url)
+    # audio_file = next(Path(__file__).parent.glob('downloads/*.wav'))
     transcribe_file(audio_file, language_sign)
+
 if __name__ == "__main__":
-    main()
+    lunch()
